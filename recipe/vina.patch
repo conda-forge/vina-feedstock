@@ -8,8 +8,7 @@ Subject: [PATCH] vina patch
  build/mac/release/Makefile    |  7 ++-----
  build/makefile_common         | 18 +++++++++---------
  build/python/setup.py         |  2 --
- build/python/vina/__init__.py |  2 +-
- 5 files changed, 15 insertions(+), 23 deletions(-)
+ 4 files changed, 14 insertions(+), 22 deletions(-)
 
 diff --git a/build/linux/release/Makefile b/build/linux/release/Makefile
 index de68dd1..8d94a09 100644
@@ -114,19 +113,7 @@ index 938732e..28b3d98 100644
          self.compiler.compiler_so.insert(2, "-shared")
  
          remove_flags = ["-Wstrict-prototypes", "-Wall"]
-diff --git a/build/python/vina/__init__.py b/build/python/vina/__init__.py
-index 9759151..6eebfa6 100644
---- a/build/python/vina/__init__.py
-+++ b/build/python/vina/__init__.py
-@@ -4,7 +4,7 @@
- # Vina
- #
- 
--#__version__ = "1.2.2"
-+__version__ = "1.2.2"
- 
- from .vina import Vina
- 
+
 -- 
 2.17.1
 
