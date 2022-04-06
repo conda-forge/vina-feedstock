@@ -12,7 +12,7 @@ source:
     - vina.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
 
 requirements:
@@ -20,6 +20,7 @@ requirements:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
     - swig
+    - make
   host:
     - boost-cpp
     - python
@@ -27,7 +28,6 @@ requirements:
   run:
     - boost-cpp
     - numpy
-    - openbabel
     - python
 
 test:
