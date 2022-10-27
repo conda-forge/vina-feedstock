@@ -12,13 +12,14 @@ source:
     - vina.patch
 
 build:
-  number: 0
+  number: 1
   skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - make
     - swig
   host:
     - boost-cpp
