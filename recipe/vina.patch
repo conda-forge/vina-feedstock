@@ -103,9 +103,18 @@ index 9db2a92..a8bfced 100644
  clean:
  	rm -f *.o
 diff --git a/build/python/setup.py b/build/python/setup.py
-index b182fda..092df54 100644
+index b182fda..3072d02 100644
 --- a/build/python/setup.py
 +++ b/build/python/setup.py
+@@ -149,7 +149,7 @@ def locate_ob():
+ def locate_boost():
+     """Try to locate boost."""
+     if in_conda():
+-        data_pathname = os.environ["CONDA_PREFIX"]
++        data_pathname = os.environ["PREFIX"]
+         include_dirs = data_pathname + os.path.sep + 'include'
+         library_dirs = data_pathname + os.path.sep + 'lib'
+         
 @@ -298,7 +298,7 @@ class CustomBuildExt(build_ext):
          print('- extra link args: %s' % self.extensions[0].extra_link_args)
  
