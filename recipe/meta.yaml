@@ -1,5 +1,5 @@
 {% set name = "vina" %}
-{% set version = "1.2.3" %}
+{% set version = "1.2.5" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/ccsb-scripps/AutoDock-Vina/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 22f85b2e770b6acc363429153b9551f56e0a0d88d25f747a40d2f55a263608e0
+  sha256: 38aec306bff0e47522ca8f581095ace9303ae98f6a64031495a9ff1e4b2ff712
   patches:
     - vina.patch
 
