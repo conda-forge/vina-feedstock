@@ -103,7 +103,7 @@ index 9db2a92..71c47ae 100644
  clean:
  	rm -f *.o
 diff --git a/build/python/setup.py b/build/python/setup.py
-index b182fda..28cba3b 100644
+index b182fda..81e3347 100644
 --- a/build/python/setup.py
 +++ b/build/python/setup.py
 @@ -45,7 +45,7 @@ def in_conda():
@@ -180,3 +180,12 @@ index b182fda..28cba3b 100644
               'src/lib/conf_independent.cpp', 'src/lib/parse_pdbqt.cpp',
               'src/lib/cache.cpp', autodock_swig_interface],
      extra_link_args=['-lboost_thread', '-lboost_serialization',
+@@ -345,7 +345,7 @@ obextension = Extension(
+ 
+ setup(
+     name='vina',
+-    version=find_version(),
++    version='1.2.5',
+     author='Diogo Santos Martins, Jerome Eberhardt, Andreas F. Tillack, Stefano Forli',
+     author_email='forli@scripps.edu',
+     license='Apache-2.0',
