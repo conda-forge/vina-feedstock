@@ -103,7 +103,7 @@ index 9db2a92..71c47ae 100644
  clean:
  	rm -f *.o
 diff --git a/build/python/setup.py b/build/python/setup.py
-index b182fda..783f4db 100644
+index b182fda..28cba3b 100644
 --- a/build/python/setup.py
 +++ b/build/python/setup.py
 @@ -45,7 +45,7 @@ def in_conda():
@@ -144,8 +144,12 @@ index b182fda..783f4db 100644
      raise RuntimeError('Could not find version string for AutoDock Vina.')
  
  
-@@ -152,7 +152,7 @@ def locate_boost():
-         data_pathname = os.environ["CONDA_PREFIX"]
+@@ -149,10 +149,10 @@ def locate_ob():
+ def locate_boost():
+     """Try to locate boost."""
+     if in_conda():
+-        data_pathname = os.environ["CONDA_PREFIX"]
++        data_pathname = os.environ["PREFIX"]
          include_dirs = data_pathname + os.path.sep + 'include'
          library_dirs = data_pathname + os.path.sep + 'lib'
 -        
