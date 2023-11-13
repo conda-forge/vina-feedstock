@@ -29,11 +29,3 @@ target_platform:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-
-CONDA_BUILD_SYSROOT:
-- /Library/Developer/CommandLineTools/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.0.sdk
-
-
-CONDA_BUILD_SYSROOT:
-- /Library/Developer/CommandLineTools/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.0.sdk
-
