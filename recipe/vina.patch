@@ -1,3 +1,15 @@
+From 32b00c7496aa77882a2dd186f7544c5db5aef4f4 Mon Sep 17 00:00:00 2001
+From: Hadrien Mary <hadrien.mary@gmail.com>
+Date: Mon, 13 Nov 2023 09:38:46 -0500
+Subject: [PATCH] uncommited
+
+---
+ build/linux/release/Makefile |  8 +++-----
+ build/mac/release/Makefile   |  7 ++-----
+ build/makefile_common        | 36 ++++++++++++++----------------------
+ build/python/setup.py        |  6 +++---
+ 4 files changed, 22 insertions(+), 35 deletions(-)
+
 diff --git a/build/linux/release/Makefile b/build/linux/release/Makefile
 index eb23376..54ea6fb 100644
 --- a/build/linux/release/Makefile
@@ -133,3 +145,6 @@ index b182fda..3072d02 100644
      author='Diogo Santos Martins, Jerome Eberhardt, Andreas F. Tillack, Stefano Forli',
      author_email='forli@scripps.edu',
      license='Apache-2.0',
+-- 
+2.42.0
+
