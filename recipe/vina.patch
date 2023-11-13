@@ -1,25 +1,25 @@
 diff --git a/build/linux/release/Makefile b/build/linux/release/Makefile
-index de68dd1..8d94a09 100644
+index eb23376..54ea6fb 100644
 --- a/build/linux/release/Makefile
 +++ b/build/linux/release/Makefile
-@@ -1,9 +1,6 @@
+@@ -1,9 +1,7 @@
 -BASE=/usr/local
 -BOOST_VERSION=
 +BASE=${PREFIX}
  BOOST_INCLUDE = $(BASE)/include
 -C_PLATFORM=-static -pthread
--GPP=/usr/bin/g++
+-GPP=g++
 +C_PLATFORM=-pthread
 +GPP=${CXX}
  C_OPTIONS= -O3 -DNDEBUG -std=c++11
 -BOOST_LIB_VERSION=
--
+ 
  include ../../makefile_common
 diff --git a/build/mac/release/Makefile b/build/mac/release/Makefile
-index 274a89b..8d94a09 100644
+index 6433c33..cb06790 100644
 --- a/build/mac/release/Makefile
 +++ b/build/mac/release/Makefile
-@@ -1,9 +1,6 @@
+@@ -1,10 +1,7 @@
 -BASE=/usr/local
 -BOOST_VERSION=
 +BASE=${PREFIX}
@@ -27,12 +27,13 @@ index 274a89b..8d94a09 100644
  C_PLATFORM=-pthread
 -GPP=/usr/bin/clang++
 +GPP=${CXX}
- C_OPTIONS= -O3 -DNDEBUG -std=c++11
+ C_OPTIONS= -O3 -DNDEBUG -std=c++11 -fvisibility=hidden
 -BOOST_LIB_VERSION=
--
+-BOOST_STATIC=y
+ 
  include ../../makefile_common
 diff --git a/build/makefile_common b/build/makefile_common
-index 763d1cc..d97b0fa 100644
+index 9db2a92..71c47ae 100644
 --- a/build/makefile_common
 +++ b/build/makefile_common
 @@ -12,7 +12,7 @@ C_OPTIONS+=-DVERSION=\"$(GIT_VERSION)\"
@@ -44,34 +45,47 @@ index 763d1cc..d97b0fa 100644
  
  LDFLAGS = -L$(BASE)/lib -L.
  
-@@ -21,35 +21,35 @@ LDFLAGS = -L$(BASE)/lib -L.
- # install libboost_thread-mt, but not
+@@ -22,9 +22,9 @@ LDFLAGS = -L$(BASE)/lib -L.
  # libboost_thread (e.g. macOS)
  $(shell echo "int main(){ return 0; }" > linktest.cpp)
+ ifeq ($(BOOST_STATIC), y)
+-$(shell $(CC) $(LDFLAGS) ${BASE}/lib/libboost_thread-mt${BOOST_LIB_VERSION}.a linktest.cpp -o linktest >/dev/null 2>&1)
++$(shell $(VINA_CC) $(LDFLAGS) ${BASE}/lib/libboost_thread-mt${BOOST_LIB_VERSION}.a linktest.cpp -o linktest >/dev/null 2>&1)
+ else
 -$(shell $(CC) $(LDFLAGS) -l boost_thread-mt${BOOST_LIB_VERSION} linktest.cpp -o linktest >/dev/null 2>&1)
 +$(shell $(VINA_CC) $(LDFLAGS) -l boost_thread-mt${BOOST_LIB_VERSION} linktest.cpp -o linktest >/dev/null 2>&1)
+ endif
  threadmt:=$(shell if [ -f ./linktest ]; then echo "-mt"; rm ./linktest; fi;)
  $(shell rm ./linktest.cpp)
- 
+@@ -32,32 +32,32 @@ $(shell rm ./linktest.cpp)
+ ifeq ($(BOOST_STATIC), y)
+ LIBS = ${BASE}/lib/libboost_system${BOOST_LIB_VERSION}.a ${BASE}/lib/libboost_thread${threadmt}${BOOST_LIB_VERSION}.a ${BASE}/lib/libboost_serialization${BOOST_LIB_VERSION}.a ${BASE}/lib/libboost_filesystem${BOOST_LIB_VERSION}.a ${BASE}/lib/libboost_program_options${BOOST_LIB_VERSION}.a
+ else
 -LIBS = -l boost_system${BOOST_LIB_VERSION} -l boost_thread${threadmt}${BOOST_LIB_VERSION} -l boost_serialization${BOOST_LIB_VERSION} -l boost_filesystem${BOOST_LIB_VERSION} -l boost_program_options${BOOST_LIB_VERSION}#-l pthread
-+LIBS = -l boost_system -l boost_thread${threadmt} -l boost_serialization -l boost_filesystem -l boost_program_options #-l pthread
++LIBS = -l boost_system -l boost_thread${threadmt} -l boost_serialization -l boost_filesystem -l boost_program_options#-l pthread
+ endif
  
  .SUFFIXES: .cpp .o
  
- %.o : ../../../src/lib/%.cpp 
+-%.o : ../../../src/lib/%.cpp 
 -	$(CC) $(CFLAGS) -o $@ -c $< 
++%.o : ../../../src/lib/%.cpp
 +	$(VINA_CC) $(CFLAGS) -o $@ -c $<
  
- %.o : ../../../src/design/%.cpp 
+-%.o : ../../../src/design/%.cpp 
 -	$(CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $< 
-+	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
- 	
- %.o : ../../../src/main/%.cpp 
+-	
+-%.o : ../../../src/main/%.cpp 
 -	$(CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $< 
++%.o : ../../../src/design/%.cpp
 +	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
  
- %.o : ../../../src/split/%.cpp 
+-%.o : ../../../src/split/%.cpp 
 -	$(CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $< 
++%.o : ../../../src/main/%.cpp
++	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
++
++%.o : ../../../src/split/%.cpp
 +	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
  
  all: vina vina_split
@@ -89,10 +103,10 @@ index 763d1cc..d97b0fa 100644
  clean:
  	rm -f *.o
 diff --git a/build/python/setup.py b/build/python/setup.py
-index 938732e..cf8d541 100644
+index b182fda..783f4db 100644
 --- a/build/python/setup.py
 +++ b/build/python/setup.py
-@@ -46,7 +46,7 @@ def in_conda():
+@@ -45,7 +45,7 @@ def in_conda():
  
  def find_version():
      """Extract the current version of AutoDock Vina.
@@ -101,7 +115,7 @@ index 938732e..cf8d541 100644
      The version will be obtained from (in priority order):
      1. version.py (file created only when using GitHub Actions)
      2. git describe
-@@ -57,7 +57,7 @@ def find_version():
+@@ -56,7 +56,7 @@ def find_version():
      if os.path.isfile(version_file):
          with open(version_file) as f:
              version = f.read().strip()
@@ -110,7 +124,7 @@ index 938732e..cf8d541 100644
          print('Version found: %s (from version.py)' % version)
          return version
  
-@@ -73,8 +73,8 @@ def find_version():
+@@ -72,8 +72,8 @@ def find_version():
          return version
      except:
          pass
@@ -121,7 +135,7 @@ index 938732e..cf8d541 100644
      with open(init_file) as f:
          for line in f:
              version_match = re.match(r'^__version__ = "(.+?)"$', line)
-@@ -84,7 +84,7 @@ def find_version():
+@@ -83,7 +83,7 @@ def find_version():
  
                  print('Version found %s (from __init__.py)' % version)
                  return version
@@ -131,7 +145,7 @@ index 938732e..cf8d541 100644
  
  
 @@ -152,7 +152,7 @@ def locate_boost():
-         data_pathname = sysconfig.get_path('data')
+         data_pathname = os.environ["CONDA_PREFIX"]
          include_dirs = data_pathname + os.path.sep + 'include'
          library_dirs = data_pathname + os.path.sep + 'lib'
 -        
@@ -139,7 +153,7 @@ index 938732e..cf8d541 100644
          if os.path.isdir(include_dirs + os.path.sep + 'boost'):
              print('Boost library location automatically determined in this conda environment.')
              return include_dirs, library_dirs
-@@ -294,11 +294,9 @@ class CustomBuildExt(build_ext):
+@@ -294,11 +294,11 @@ class CustomBuildExt(build_ext):
              # To get the right @rpath on macos for libraries
              self.extensions[0].extra_link_args.append('-Wl,-rpath,' + self.library_dirs[0])
              self.extensions[0].extra_link_args.append('-Wl,-rpath,' + '/usr/lib')
@@ -147,12 +161,13 @@ index 938732e..cf8d541 100644
 +
          print('- extra link args: %s' % self.extensions[0].extra_link_args)
  
--        # Replace current compiler to g++
+         # Replace current compiler to g++
 -        self.compiler.compiler_so[0] = "g++"
++        # self.compiler.compiler_so[0] = "g++"
          self.compiler.compiler_so.insert(2, "-shared")
  
          remove_flags = ["-Wstrict-prototypes", "-Wall"]
-@@ -334,7 +332,7 @@ obextension = Extension(
+@@ -334,7 +334,7 @@ obextension = Extension(
               'src/lib/quaternion.cpp', 'src/lib/monte_carlo.cpp', 'src/lib/non_cache.cpp',
               'src/lib/mutate.cpp', 'src/lib/szv_grid.cpp', 'src/lib/quasi_newton.cpp',
               'src/lib/parallel_progress.cpp', 'src/lib/model.cpp', 'src/lib/coords.cpp',
@@ -161,12 +176,3 @@ index 938732e..cf8d541 100644
               'src/lib/conf_independent.cpp', 'src/lib/parse_pdbqt.cpp',
               'src/lib/cache.cpp', autodock_swig_interface],
      extra_link_args=['-lboost_thread', '-lboost_serialization',
-@@ -358,7 +356,7 @@ setup(
-     packages=['vina'],
-     package_dir=package_dir,
-     install_requires=['numpy>=1.18'],
--    python_requires='>=3.5.*',
-+    python_requires='>=3.5',
-     ext_modules=[obextension],
-     #entry_points={"console_scripts": ["vina = vina.vina_cli:main"]},
-     classifiers=[
