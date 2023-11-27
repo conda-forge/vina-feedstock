@@ -30,7 +30,6 @@ requirements:
   run:
     - boost-cpp
     - numpy
-    - openbabel
     - python
 
 test:
