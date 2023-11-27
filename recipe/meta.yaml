@@ -12,7 +12,7 @@ source:
     - vina.patch
 
 build:
-  number: 1
+  number: 2
   skip: true  # [win]
 
 requirements:
@@ -24,11 +24,10 @@ requirements:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
   host:
-    - boost-cpp
+    - libboost-devel
     - python
     - pip
   run:
-    - boost-cpp
     - numpy
     - python
 
