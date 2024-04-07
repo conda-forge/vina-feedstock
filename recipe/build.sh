@@ -1,3 +1,6 @@
+#!/bin/bash
+set -ex
+
 if [[ $(uname) == "Linux" ]]; then
     cd ${SRC_DIR}/build/linux/release
 fi
