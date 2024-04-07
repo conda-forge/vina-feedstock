@@ -8,6 +8,9 @@ fi
 
 export GPP=${CXX}
 
+# upstream vina uses deprecated boost headers; allow for now
+export CXXFLAGS="${CXXFLAGS} -DBOOST_TIMER_ENABLE_DEPRECATED"
+
 make
 
 cp vina ${PREFIX}/bin
