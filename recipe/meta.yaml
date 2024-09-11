@@ -12,19 +12,20 @@ source:
     - vina.patch
 
 build:
-  number: 3
+  number: 4
   skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - {{ stdlib("c") }}
     - make
     - swig
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
   host:
-    - libboost-devel
+    - libboost-devel <=1.82
     - python
     - pip
   run:
