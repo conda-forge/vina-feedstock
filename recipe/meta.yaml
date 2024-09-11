@@ -12,12 +12,13 @@ source:
     - vina.patch
 
 build:
-  number: 4
+  number: 5
   skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ stdlib("c") }}
     - make
