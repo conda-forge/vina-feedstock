@@ -1,3 +1,6 @@
+#!/bin/bash
+set -ex
+
 if [[ $(uname) == "Linux" ]]; then
     cd ${SRC_DIR}/build/linux/release
 fi
@@ -7,6 +10,9 @@ if [[ $(uname) == "Darwin" ]]; then
 fi
 
 export GPP=${CXX}
+
+# upstream vina uses deprecated boost headers; allow for now
+export CFLAGS="${CFLAGS} -DBOOST_TIMER_ENABLE_DEPRECATED"
 
 make
 
