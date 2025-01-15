@@ -1,21 +1,8 @@
-From 32b00c7496aa77882a2dd186f7544c5db5aef4f4 Mon Sep 17 00:00:00 2001
-From: Hadrien Mary <hadrien.mary@gmail.com>
-Date: Mon, 13 Nov 2023 09:38:46 -0500
-Subject: [PATCH] uncommited
-
----
- build/linux/release/Makefile |  8 +++-----
- build/mac/release/Makefile   |  7 ++-----
- build/makefile_common        | 36 ++++++++++++++----------------------
- build/python/setup.py        |  6 +++---
- 4 files changed, 22 insertions(+), 35 deletions(-)
-
-diff --git a/build/linux/release/Makefile b/build/linux/release/Makefile
-index eb23376..54ea6fb 100644
---- a/build/linux/release/Makefile
-+++ b/build/linux/release/Makefile
+diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/linux/release/Makefile AutoDock-Vina-1.2.6-patched/build/linux/release/Makefile
+--- AutoDock-Vina-1.2.6/build/linux/release/Makefile	2025-01-10 15:14:50.000000000 -0800
++++ AutoDock-Vina-1.2.6-patched/build/linux/release/Makefile	2025-01-14 17:11:20.048928795 -0800
 @@ -1,9 +1,7 @@
--BASE=/usr/local
+-BASE=/usr
 -BOOST_VERSION=
 +BASE=${PREFIX}
  BOOST_INCLUDE = $(BASE)/include
@@ -27,12 +14,11 @@ index eb23376..54ea6fb 100644
 -BOOST_LIB_VERSION=
  
  include ../../makefile_common
-diff --git a/build/mac/release/Makefile b/build/mac/release/Makefile
-index 6433c33..cb06790 100644
---- a/build/mac/release/Makefile
-+++ b/build/mac/release/Makefile
+diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/mac/release/Makefile AutoDock-Vina-1.2.6-patched/build/mac/release/Makefile
+--- AutoDock-Vina-1.2.6/build/mac/release/Makefile	2025-01-10 15:14:50.000000000 -0800
++++ AutoDock-Vina-1.2.6-patched/build/mac/release/Makefile	2025-01-14 17:12:40.567820960 -0800
 @@ -1,10 +1,7 @@
--BASE=/usr/local
+-BASE=$(shell brew --prefix)
 -BOOST_VERSION=
 +BASE=${PREFIX}
  BOOST_INCLUDE = $(BASE)/include
@@ -44,11 +30,10 @@ index 6433c33..cb06790 100644
 -BOOST_STATIC=y
  
  include ../../makefile_common
-diff --git a/build/makefile_common b/build/makefile_common
-index 9db2a92..a8bfced 100644
---- a/build/makefile_common
-+++ b/build/makefile_common
-@@ -12,7 +12,7 @@ C_OPTIONS+=-DVERSION=\"$(GIT_VERSION)\"
+diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/makefile_common AutoDock-Vina-1.2.6-patched/build/makefile_common
+--- AutoDock-Vina-1.2.6/build/makefile_common	2025-01-10 15:14:50.000000000 -0800
++++ AutoDock-Vina-1.2.6-patched/build/makefile_common	2025-01-14 15:19:01.150179485 -0800
+@@ -12,7 +12,7 @@
  
  # -pedantic fails on Mac with Boost 1.41 (syntax problems in their headers)
  #CC = ${GPP} ${C_PLATFORM} -ansi -pedantic -Wno-long-long ${C_OPTIONS} $(INCFLAGS)
@@ -57,7 +42,7 @@ index 9db2a92..a8bfced 100644
  
  LDFLAGS = -L$(BASE)/lib -L.
  
-@@ -21,43 +21,35 @@ LDFLAGS = -L$(BASE)/lib -L.
+@@ -21,43 +21,35 @@
  # install libboost_thread-mt, but not
  # libboost_thread (e.g. macOS)
  $(shell echo "int main(){ return 0; }" > linktest.cpp)
@@ -83,20 +68,20 @@ index 9db2a92..a8bfced 100644
 -	$(CC) $(CFLAGS) -o $@ -c $< 
 +%.o : ../../../src/lib/%.cpp
 +	$(VINA_CC) $(CFLAGS) -o $@ -c $<
-+
-+%.o : ../../../src/design/%.cpp
-+	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
  
 -%.o : ../../../src/design/%.cpp 
 -	$(CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $< 
 -	
 -%.o : ../../../src/main/%.cpp 
 -	$(CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $< 
-+%.o : ../../../src/main/%.cpp
++%.o : ../../../src/design/%.cpp
 +	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
  
 -%.o : ../../../src/split/%.cpp 
 -	$(CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $< 
++%.o : ../../../src/main/%.cpp
++	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
++
 +%.o : ../../../src/split/%.cpp
 +	$(VINA_CC) $(CFLAGS) -I ../../../src/lib -o $@ -c $<
  
@@ -114,20 +99,21 @@ index 9db2a92..a8bfced 100644
  
  clean:
  	rm -f *.o
-diff --git a/build/python/setup.py b/build/python/setup.py
-index b182fda..3072d02 100644
---- a/build/python/setup.py
-+++ b/build/python/setup.py
-@@ -149,7 +149,7 @@ def locate_ob():
+diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/python/setup.py AutoDock-Vina-1.2.6-patched/build/python/setup.py
+--- AutoDock-Vina-1.2.6/build/python/setup.py	2025-01-14 17:07:36.003938436 -0800
++++ AutoDock-Vina-1.2.6-patched/build/python/setup.py	2025-01-14 17:09:46.852569482 -0800
+@@ -112,8 +112,8 @@
  def locate_boost():
      """Try to locate boost."""
      if in_conda():
--        data_pathname = os.environ["CONDA_PREFIX"]
-+        data_pathname = os.environ["PREFIX"]
+-        if "CONDA_PREFIX" in os.environ.keys():
+-            data_pathname = os.environ["CONDA_PREFIX"]
++        if "PREFIX" in os.environ.keys():
++            data_pathname = os.environ["PREFIX"]
+         else:
+             data_pathname = sysconfig.get_path("data") # just for readthedocs build
          include_dirs = data_pathname + os.path.sep + 'include'
-         library_dirs = data_pathname + os.path.sep + 'lib'
-         
-@@ -298,7 +298,7 @@ class CustomBuildExt(build_ext):
+@@ -263,7 +263,7 @@
          print('- extra link args: %s' % self.extensions[0].extra_link_args)
  
          # Replace current compiler to g++
@@ -135,8 +121,8 @@ index b182fda..3072d02 100644
 +        # self.compiler.compiler_so[0] = "g++"
          self.compiler.compiler_so.insert(2, "-shared")
  
-         remove_flags = ["-Wstrict-prototypes", "-Wall"]
-@@ -345,7 +345,7 @@ obextension = Extension(
+         # Remove compiler flags if we can
+@@ -317,7 +317,7 @@
  
  setup(
      name='vina',
@@ -145,6 +131,3 @@ index b182fda..3072d02 100644
      author='Diogo Santos Martins, Jerome Eberhardt, Andreas F. Tillack, Stefano Forli',
      author_email='forli@scripps.edu',
      license='Apache-2.0',
--- 
-2.42.0
-
