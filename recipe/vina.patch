@@ -1,6 +1,6 @@
-diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/linux/release/Makefile AutoDock-Vina-1.2.6-patched/build/linux/release/Makefile
---- AutoDock-Vina-1.2.6/build/linux/release/Makefile	2025-01-10 15:14:50.000000000 -0800
-+++ AutoDock-Vina-1.2.6-patched/build/linux/release/Makefile	2025-01-14 17:11:20.048928795 -0800
+diff '--color=auto' -uNr build/linux/release/Makefile build/linux/release/Makefile
+--- build/linux/release/Makefile
++++ build/linux/release/Makefile
 @@ -1,9 +1,7 @@
 -BASE=/usr
 -BOOST_VERSION=
@@ -14,9 +14,9 @@ diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/linux/release/Makefile AutoDo
 -BOOST_LIB_VERSION=
  
  include ../../makefile_common
-diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/mac/release/Makefile AutoDock-Vina-1.2.6-patched/build/mac/release/Makefile
---- AutoDock-Vina-1.2.6/build/mac/release/Makefile	2025-01-10 15:14:50.000000000 -0800
-+++ AutoDock-Vina-1.2.6-patched/build/mac/release/Makefile	2025-01-14 17:12:40.567820960 -0800
+diff '--color=auto' -uNr build/mac/release/Makefile build/mac/release/Makefile
+--- build/mac/release/Makefile
++++ build/mac/release/Makefile
 @@ -1,10 +1,7 @@
 -BASE=$(shell brew --prefix)
 -BOOST_VERSION=
@@ -25,14 +25,14 @@ diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/mac/release/Makefile AutoDock
  C_PLATFORM=-pthread
 -GPP=/usr/bin/clang++
 +GPP=${CXX}
- C_OPTIONS= -O3 -DNDEBUG -std=c++11 -fvisibility=hidden
+ C_OPTIONS= -O3 -DNDEBUG -std=c++14 -fvisibility=hidden
 -BOOST_LIB_VERSION=
 -BOOST_STATIC=y
  
  include ../../makefile_common
-diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/makefile_common AutoDock-Vina-1.2.6-patched/build/makefile_common
---- AutoDock-Vina-1.2.6/build/makefile_common	2025-01-10 15:14:50.000000000 -0800
-+++ AutoDock-Vina-1.2.6-patched/build/makefile_common	2025-01-14 15:19:01.150179485 -0800
+diff '--color=auto' -uNr build/makefile_common build/makefile_common
+--- build/makefile_common
++++ build/makefile_common
 @@ -12,7 +12,7 @@
  
  # -pedantic fails on Mac with Boost 1.41 (syntax problems in their headers)
@@ -99,9 +99,9 @@ diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/makefile_common AutoDock-Vina
  
  clean:
  	rm -f *.o
-diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/python/setup.py AutoDock-Vina-1.2.6-patched/build/python/setup.py
---- AutoDock-Vina-1.2.6/build/python/setup.py	2025-01-14 17:07:36.003938436 -0800
-+++ AutoDock-Vina-1.2.6-patched/build/python/setup.py	2025-01-14 17:09:46.852569482 -0800
+diff '--color=auto' -uNr build/python/setup.py build/python/setup.py
+--- build/python/setup.py
++++ build/python/setup.py
 @@ -112,8 +112,8 @@
  def locate_boost():
      """Try to locate boost."""
@@ -127,7 +127,7 @@ diff '--color=auto' -uNr AutoDock-Vina-1.2.6/build/python/setup.py AutoDock-Vina
  setup(
      name='vina',
 -    version=find_version(),
-+    version='1.2.6',
++    version='1.2.7',
      author='Diogo Santos Martins, Jerome Eberhardt, Andreas F. Tillack, Stefano Forli',
      author_email='forli@scripps.edu',
      license='Apache-2.0',
